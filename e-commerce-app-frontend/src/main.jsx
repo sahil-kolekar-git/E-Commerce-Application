@@ -4,6 +4,8 @@ import "./index.css";
 import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./components/Home.jsx";
+import ThemeContextProvider from "./context/ThemeContext.jsx";
+import AddProduct from "./components/AddProduct.jsx";
 
 let routes = createBrowserRouter([
   {
@@ -14,14 +16,20 @@ let routes = createBrowserRouter([
         path: "",
         element: <Home />,
       },
+      {
+        path: "add",
+        element: <AddProduct />,
+      },
     ],
   },
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={routes}>
-      <App />
-    </RouterProvider>
+    <ThemeContextProvider>
+      <RouterProvider router={routes}>
+        <App />
+      </RouterProvider>
+    </ThemeContextProvider>
   </StrictMode>
 );
