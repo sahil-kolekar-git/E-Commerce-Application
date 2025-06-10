@@ -6,6 +6,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./components/Home.jsx";
 import ThemeContextProvider from "./context/ThemeContext.jsx";
 import AddProduct from "./components/AddProduct.jsx";
+import { Provider } from "react-redux";
+import { store } from "./app/store.js";
 
 let routes = createBrowserRouter([
   {
@@ -26,10 +28,12 @@ let routes = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ThemeContextProvider>
-      <RouterProvider router={routes}>
-        <App />
-      </RouterProvider>
-    </ThemeContextProvider>
+    <Provider store={store}>
+      <ThemeContextProvider>
+        <RouterProvider router={routes}>
+          <App />
+        </RouterProvider>
+      </ThemeContextProvider>
+    </Provider>
   </StrictMode>
 );
