@@ -16,4 +16,6 @@ public interface ProductService {
 
 	Product getProduct(Integer id);
 
+	Integer deleteProduct(Integer id);
+
 }

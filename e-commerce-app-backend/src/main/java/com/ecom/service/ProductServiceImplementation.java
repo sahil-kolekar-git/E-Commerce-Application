@@ -43,4 +43,12 @@ public class ProductServiceImplementation implements ProductService {
 
 	}
 
+	@Override
+	public Integer deleteProduct(Integer id) {
+
+		productRepository.deleteById(id);
+		return id;
+
+	}
+
 }

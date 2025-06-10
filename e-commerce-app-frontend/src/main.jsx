@@ -8,6 +8,7 @@ import ThemeContextProvider from "./context/ThemeContext.jsx";
 import AddProduct from "./components/AddProduct.jsx";
 import { Provider } from "react-redux";
 import { store } from "./app/store.js";
+import ProductData from "./components/ProductData.jsx";
 
 let routes = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ let routes = createBrowserRouter([
         element: <AddProduct />,
       },
     ],
+  },
+  {
+    path: "/product/:id",
+    element: <ProductData />,
   },
 ]);
 

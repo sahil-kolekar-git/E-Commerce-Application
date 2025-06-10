@@ -1,12 +1,21 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+export const deleteProduct = createAsyncThunk("deleteProduct", async (data) => {
+  let res = await axios.delete(`http://localhost:8080/product/delete/${data}`);
+  return res.data;
+});
+
 export const fetchImage = createAsyncThunk("fetchImage", async (data) => {
   let res = await axios.get(`http://localhost:8080/product/${data}/image`, {
     responseType: "blob",
   });
   let url = URL.createObjectURL(res.data);
-  return url;
+  let obj = {
+    data,
+    url,
+  };
+  return obj;
 });
 
 export const upLoadProduct = createAsyncThunk("upLoadProduct", async (data) => {
@@ -30,7 +39,7 @@ export const productSlice = createSlice({
     data: [],
     isLoading: false,
     isError: "",
-    imageURL: "",
+    imageUrl: {},
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -54,14 +63,19 @@ export const productSlice = createSlice({
     builder.addCase(fetchProduct.rejected, (state, action) => {
       state.isError = true;
     });
-    builder.addCase(fetchImage.pending, (state, action) => {
-      state.imageURL = "";
-    });
+    builder.addCase(fetchImage.pending, (state, action) => {});
     builder.addCase(fetchImage.fulfilled, (state, action) => {
-      state.imageURL = action.payload;
+      state.imageUrl[action.payload.data] = action.payload.url;
     });
     builder.addCase(fetchImage.rejected, (state, action) => {
       console.log(action);
+    });
+    builder.addCase(deleteProduct.fulfilled, (state, action) => {
+      console.log(action);
+
+      state.data = state.data.filter((product) => {
+        return product.id !== action.payload;
+      });
     });
   },
 });
