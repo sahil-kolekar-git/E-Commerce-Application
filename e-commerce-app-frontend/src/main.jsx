@@ -9,6 +9,7 @@ import AddProduct from "./components/AddProduct.jsx";
 import { Provider } from "react-redux";
 import { store } from "./app/store.js";
 import ProductData from "./components/ProductData.jsx";
+import UpdateProduct from "./components/UpdateProduct.jsx";
 
 let routes = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ let routes = createBrowserRouter([
   {
     path: "/product/:id",
     element: <ProductData />,
+  },
+  {
+    path: "/update/:id",
+    element: <UpdateProduct />,
   },
 ]);
 

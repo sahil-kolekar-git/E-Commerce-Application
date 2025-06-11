@@ -1,5 +1,6 @@
 package com.ecom.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -17,5 +18,7 @@ public interface ProductService {
 	Product getProduct(Integer id);
 
 	Integer deleteProduct(Integer id);
+
+	Product updateProduct(Integer id, Product product, MultipartFile imageFile) throws IOException;
 
 }

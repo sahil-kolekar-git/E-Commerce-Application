@@ -3,6 +3,7 @@ package com.ecom.service;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,6 +50,19 @@ public class ProductServiceImplementation implements ProductService {
 		productRepository.deleteById(id);
 		return id;
 
+	}
+
+	@Override
+	public Product updateProduct(Integer id, Product product, MultipartFile imageFile) throws IOException {
+		Product dbProduct = productRepository.findById(id).get();
+
+		BeanUtils.copyProperties(product, dbProduct);
+
+		dbProduct.setImageData(imageFile.getBytes());
+		dbProduct.setImageName(imageFile.getOriginalFilename());
+		dbProduct.setImageType(imageFile.getContentType());
+
+		return productRepository.save(dbProduct);
 	}
 
 }

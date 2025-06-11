@@ -1,12 +1,16 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { upLoadProduct } from "../features/productSlice";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { updateProduct } from "../features/productSlice";
 
-const AddProduct = () => {
+const UpdateProduct = () => {
+  let { id } = useParams();
+
   let navigate = useNavigate();
+
   let dispatch = useDispatch();
+  let { data } = useSelector((state) => state.product);
+
   let [product, setProduct] = useState({
     name: "",
     description: "",
@@ -14,11 +18,17 @@ const AddProduct = () => {
     quantity: 0,
   });
 
+  let dbProduct = data.filter((product) => {
+    return product.id == id;
+  });
+
+  useEffect(() => {
+    setProduct({ ...dbProduct[0] });
+  }, []);
+
   let [imageFile, setImageFile] = useState(null);
 
-  let { description, name, price, quantity } = product;
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     let formData = new FormData();
     formData.append(
@@ -26,17 +36,16 @@ const AddProduct = () => {
       new Blob([JSON.stringify(product)], { type: "application/json" })
     );
     formData.append("imageFile", imageFile);
-    dispatch(upLoadProduct(formData));
-    navigate("/");
+    dispatch(updateProduct({ formData, id }));
   };
-
+  const handleImage = (e) => {
+    setImageFile(e.target.files[0]);
+  };
   const handleChange = (e) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
   };
 
-  const handleImage = (e) => {
-    setImageFile(e.target.files[0]);
-  };
+  let { name, price, description, quantity } = product;
   return (
     <div className="max-w-xl mx-auto mt-10 p-6 shadow-md rounded-md">
       <h2 className="text-2xl font-bold mb-6 text-center">Add Product</h2>
@@ -102,6 +111,9 @@ const AddProduct = () => {
         </div>
 
         <button
+          onClick={() => {
+            navigate("/");
+          }}
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200"
         >
@@ -112,4 +124,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default UpdateProduct;
