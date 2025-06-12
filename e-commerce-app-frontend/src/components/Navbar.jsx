@@ -2,15 +2,17 @@ import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import { MdOutlineLightMode } from "react-icons/md";
 import { MdLightMode } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchData } from "../features/productSlice";
+import { TiShoppingCart } from "react-icons/ti";
 const Navbar = () => {
   let { theme, setTheme } = useContext(ThemeContext);
-  let { searchData } = useSelector((state) => state.product);
+  let { searchData, cartData } = useSelector((state) => state.product);
   let dispatch = useDispatch();
+  let navigate = useNavigate();
   return (
-    <nav className="flex px-4 py-2 w-full justify-between items-center">
+    <nav className="flex px-4 py-2 w-full justify-between items-center fixed top-0 z-50 bg-violet-600 ">
       <div className="flex gap-4">
         <div>
           <span className="text-xl font-bold">Ecom-App</span>
@@ -26,6 +28,15 @@ const Navbar = () => {
       </div>
       <div className="flex gap-4">
         <div className="flex gap-2">
+          <button
+            className="flex items-center justify-center cursor-pointer"
+            onClick={() => {
+              navigate("/cart");
+            }}
+          >
+            <TiShoppingCart className="text-2xl mr-2" />
+            <span>({cartData.length})</span>
+          </button>
           <input
             type="text"
             placeholder="search product"

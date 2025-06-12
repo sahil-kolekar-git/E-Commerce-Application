@@ -55,10 +55,37 @@ export const productSlice = createSlice({
     isError: false,
     imageUrl: {},
     searchData: "",
+    cartData: [],
   },
   reducers: {
     setSearchData: (state, action) => {
       state.searchData = action.payload;
+    },
+    addToCart: (state, action) => {
+      const product = action.payload;
+      const existingItem = state.cartData.find(
+        (item) => item.id === product.id
+      );
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        state.cartData.push({ ...product, quantity: 1 });
+      }
+    },
+    addQuantity: (state, action) => {
+      let product = state.cartData.find(
+        (product) => product.id == action.payload
+      );
+      if (product) {
+        product.quantity += 1;
+      }
+    },
+    removeQuantity: (state, action) => {
+      state.cartData = state.cartData.map((product) => {
+        return product.id == action.payload
+          ? { ...product, quantity: product.quantity - 1 }
+          : product;
+      });
     },
   },
   extraReducers: (builder) => {
@@ -119,4 +146,5 @@ export const productSlice = createSlice({
 });
 
 export default productSlice.reducer;
-export const { setSearchData } = productSlice.actions;
+export const { setSearchData, addToCart, addQuantity, removeQuantity } =
+  productSlice.actions;

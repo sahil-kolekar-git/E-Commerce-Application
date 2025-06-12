@@ -1,7 +1,9 @@
 import axios from "axios";
+import { TiShoppingCart } from "react-icons/ti";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addToCart,
   deleteProduct,
   fetchImage,
   fetchProduct,
@@ -36,7 +38,7 @@ const Home = () => {
   }
 
   return (
-    <div className="p-8 min-h-screen">
+    <div className="p-8 mt-3 max-h-screen overflow-hidden overflow-y-auto">
       <h1 className="text-3xl font-bold mb-8 text-center">All Products</h1>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {data
@@ -80,8 +82,15 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="flex justify-between p-3 items-center">
-                  <div className=" bg-blue-500 text-white p-2 rounded-[6px] cursor-pointer">
-                    <span>Add to Cart</span>
+                  <div>
+                    <button
+                      className=" bg-blue-500 text-white p-2 rounded-[6px] cursor-pointer"
+                      onClick={() => {
+                        dispatch(addToCart(product));
+                      }}
+                    >
+                      <TiShoppingCart />
+                    </button>
                   </div>
                   <div className="flex gap-2">
                     <button

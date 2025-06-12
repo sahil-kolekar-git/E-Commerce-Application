@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import { store } from "./app/store.js";
 import ProductData from "./components/ProductData.jsx";
 import UpdateProduct from "./components/UpdateProduct.jsx";
+import Cart from "./components/Cart.jsx";
 
 let routes = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ let routes = createBrowserRouter([
       {
         path: "add",
         element: <AddProduct />,
+      },
+      {
+        path: "cart",
+        element: <Cart />,
       },
     ],
   },
